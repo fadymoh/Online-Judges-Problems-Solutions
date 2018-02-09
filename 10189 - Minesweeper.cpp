@@ -6,48 +6,62 @@
 #include <string>
 #include <functional>
 #include <cstring>
+#include <list>
+#include <utility>
 #include <cmath>
 #include <iomanip>
+#include <unordered_map>
 using namespace std;
-#define rep(i, a, b) 	for (int i = int(a); i <= int(b); i++)
+//rep(i, 0, changed.size() - 1) changed[i].erase(remove(changed[i].begin(), changed[i].end(), ' '), changed[i].end());
+struct comparator {
+	bool operator()(int i, int j) {
+		return i > j;
+	}
+};
+priority_queue<int, std::vector<int>, comparator> minHeap;
+#define rep(i, a, b) 	for (int i = int(a); i <= int(b); ++i)
 int main()
 {
-	int n, m, i, j, CC = 1;
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	int n, m, counter_c = 1;
 	cin >> n >> m;
-	while (n){
-		char mine[101][101], output[101][101];
-		cout << "Field #" << CC++ << ":" << endl;
-		rep(i, 0, n - 1) cin >> mine[i];
-
-		rep(i, 0, n - 1){
-			rep(j, 0, m - 1){
-				if (mine[i][j] != '*'){
-					int count = 0;
-					for (int k = 0; k < 3; k++){
-						for (int l = 0; l < 3; l++){
-							int temp1 = i + k - 1, temp2 = j+l - 1;
-							if (((temp1)<n) && ((temp2)<m)){
-								if (((temp1)>-1) && ((temp2)>-1)){
-									if ((mine[temp1][temp2] == '*') && !((temp1) == i && (temp2) == j)){
-										count++;
-									}
-								}
-							}
-						}
+	while (n)
+	{
+		char x[102][102];
+		for (int i = 0; i < n; ++i)
+		for (int j = 0; j < m; ++j)
+			cin >> x[i][j];
+		for (int i = 0; i < n; ++i)
+		for (int j = 0; j < m; ++j)
+		{
+			if (x[i][j] != '*')
+			{
+				int counter = 0;
+				for (int k = 0; k < 3; ++k)
+				{
+					for (int l = 0; l < 3; ++l)
+					{
+						int x_coordinate = i + k - 1;
+						int y_coordinate = j + l - 1;
+						if (x_coordinate >= 0 && y_coordinate >= 0 && x_coordinate < n && y_coordinate < m && x[x_coordinate][y_coordinate] == '*')
+							counter++;
 					}
-					output[i][j] = '0' + count;
 				}
-				else output[i][j] = '*';
+				x[i][j] = counter + '0';
 			}
 		}
-		rep(i, 0, n - 1){
-			rep(j, 0, m - 1)
-				cout << output[i][j];
+		cout << "Field #" << counter_c++ << ":\n";
+		for (int i = 0; i < n; ++i)
+		{
+			for (int j = 0; j < m; ++j)
+				cout << x[i][j];
 			cout << endl;
 		}
 		cin >> n >> m;
 		if (n) cout << endl;
 	}
+
 	system("pause");
 	return 0;
 }

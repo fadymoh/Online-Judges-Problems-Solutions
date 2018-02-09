@@ -23,13 +23,20 @@ int main()
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	int t;
-	cin >> t;
-	for (int i = 1; i <= t; ++i)
+	while (cin >> t, t != 0)
 	{
-		vector <int> myvect(3);
-		cin >> myvect[0] >> myvect[1] >> myvect[2];
-		sort(myvect.begin(), myvect.end());
-		cout <<"Case " << i << ": " <<myvect[1] << endl;
+		int x, y;
+		cin >> x >> y;
+		while (t--)
+		{
+			int temp_x, temp_y;
+			cin >> temp_x >> temp_y;
+			if (temp_x == x || temp_y == y) cout << "divisa" << endl;
+			else if (temp_x > x && temp_y > y) cout << "NE" << endl;
+			else if (temp_x > x && temp_y < y) cout << "SE" << endl;
+			else if (temp_x < x && temp_y > y) cout << "NO" << endl;
+			else cout << "SO" << endl;
+		}
 	}
 
 	system("pause");

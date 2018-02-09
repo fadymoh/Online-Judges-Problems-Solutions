@@ -22,16 +22,36 @@ int main()
 {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-	int t;
-	cin >> t;
-	for (int i = 1; i <= t; ++i)
+	float height, day, night;
+	double fatigue;
+	while (cin >> height >> day >> night >> fatigue, height != 0)
 	{
-		vector <int> myvect(3);
-		cin >> myvect[0] >> myvect[1] >> myvect[2];
-		sort(myvect.begin(), myvect.end());
-		cout <<"Case " << i << ": " <<myvect[1] << endl;
-	}
+		fatigue = fatigue / 100;
+		fatigue = day*fatigue;
 
+		float current_height = 0;
+		int counter = 0;
+		bool flag = true;
+		while (current_height <= height)
+		{
+			
+			
+			current_height += day;
+			counter++;
+			if (current_height > height) break;
+			current_height -= night;
+			if (day > 0)
+			day -= fatigue;
+			if (current_height < 0){
+				flag = false;
+				break;
+			}
+			//cout << " fe eh" << endl;
+		}
+		if (flag) cout << "success on day ";
+		else cout << "failure on day ";
+		cout << counter << endl;
+	}
 	system("pause");
 	return 0;
 }

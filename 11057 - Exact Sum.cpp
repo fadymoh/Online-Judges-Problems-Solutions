@@ -19,7 +19,13 @@ int main()
 		sort(price.begin(), price.end());
 		int s = 0, e = numbers - 1, m, i, j;
 		while (s <= e){
-			if (price[s] + price[e] == sum) { i = s; j = e; s++; e--; }
+			if (price[s] + price[e] == sum) 
+			{
+				i = s; 
+				j = e; 
+				s++; 
+				e--; 
+			}
 			else if (price[s] + price[e] > sum) e--;
 			else s++;
 		}

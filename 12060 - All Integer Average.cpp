@@ -6,73 +6,72 @@
 #include <string>
 #include <functional>
 #include <cstring>
+#include <list>
 #include <cmath>
 #include <iomanip>
 using namespace std;
-#define rep(i, a, b) 	for (int i = int(a); i <= int(b); i++)
-long gcd(long a, long b)
-{
-	if (a == 0)
-		return b;
-	else if (b == 0)
-		return a;
-
-	if (a < b)
-		return gcd(a, b % a);
-	else
-		return gcd(b, a % b);
-}
-int getlength(int num)
-{
-	int count = 0;
-	while (num){
-		num /= 10;
-		++count;
+//rep(i, 0, changed.size() - 1) changed[i].erase(remove(changed[i].begin(), changed[i].end(), ' '), changed[i].end());
+struct comparator {
+	bool operator()(int i, int j) {
+		return i > j;
 	}
-	return count;
-}
-void PrintNum(int num, bool isNeg, int preceedLength, int longest)
+};
+priority_queue<int, std::vector<int>, comparator> minHeap;
+#define rep(i, a, b) 	for (int i = int(a); i <= int(b); ++i)
+int gcd(int a, int b)
 {
-	if (isNeg)
-		cout << "  ";
-	cout << string(preceedLength, ' ') << setw(longest) << num << '\n';
+	if (b != 0) return gcd(b, a%b);
+	else return a;
 }
 int main()
 {
-	int n, i, x, T = 1;
-	while (cin >> n, n){
-		long sum = 0;
-		rep(i, 1, n){
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	int n;
+	int counter = 1;
+	while (cin >> n, n != 0)
+	{
+		int avg = 0, x;
+		for (int i = 0; i < n; i++)
+		{
 			cin >> x;
-			sum += x;
+			avg += x;
 		}
-		cout << "Case " << T++ << ":\n";
-		if (sum % n == 0){
-			if (sum < 0)
-				cout << "- ";
-			cout << abs(sum / n) << '\n';
-		}
-		else{
-			bool neg = (sum < 0);
-			sum = abs(sum);
-			double average = (float)sum / n, integral, frac;
-			frac = modf(average, &integral);
-			int integral_length = getlength(integral);
-			sum = sum % n;
-			int GCD = gcd(sum, n);
-			int num = sum / GCD, denom = n / GCD;
-			int maxx = max(getlength(num), getlength(denom));
-			PrintNum(num, neg, integral_length, maxx);
-			if (neg)
-				cout << "- ";
-			if (integral)
-				cout << integral;
-			cout << string(maxx, '-') << '\n';
-			PrintNum(denom, neg, integral_length, maxx);
-		}
+		int a = avg%n;
+		int b = n;
+		int gcdd = gcd(a, b);
+		avg /= n;
+		a /= gcdd;
+		b /= gcdd;
+		cout << "Case " << counter++ << ":\n";
+		string temp2 = to_string(avg);
+		string temp = to_string(abs(b));
 
-	}
-
+		int length = temp.length();
+		int length2 = temp2.length();
+		if (avg < 0) {
+			temp2.insert(1, 1, ' ');
+			length2++;
+		}
+		if (a != 0) //then we have a fraction
+		{
+			bool flag = false;
+			if ((a < 0 || b < 0) && avg == 0) flag = true;
+			if (flag) length2 += 2;
+			if (avg == 0)
+			{
+				length2--;
+				cout << setw(length + length2) << abs(a) << endl;
+			}
+			else
+				cout << setw(length + length2) << abs(a) << endl << temp2;
+			if (flag) cout << "- ";
+			for (int i = 0; i < length; i++)
+				cout << '-';
+			cout << endl << setw(length + length2) << abs(b) << endl;
+		}
+		else cout << temp2 << endl;
+	 }
 	system("pause");
 	return 0;
 }

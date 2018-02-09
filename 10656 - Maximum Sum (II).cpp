@@ -19,7 +19,14 @@ int main()
 		bool flag = false;
 		for (int i = 0; i < n; i++){
 			scanf("%d", &x);
-			if (x){ if (!flag) { printf("%d", x); flag = true; } else printf(" %d", x); }
+			if (x){
+				if (!flag) {
+					printf("%d", x); 
+					flag = true;
+				} 
+				else
+					printf(" %d", x);
+			}
 		}
 		if (!flag) printf("0");
 		printf("\n");

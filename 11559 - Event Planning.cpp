@@ -24,7 +24,7 @@ int main()
 				if (beds >= participants)
 					temp = 1;
 			}
-			if (temp) minn = min(minn, participants*price_per_stay); 
+			if (temp) minn = min(minn, participants*price_per_stay);
 		}
 		(minn > budget) ? cout << "stay home" : cout << minn;
 		cout << endl;

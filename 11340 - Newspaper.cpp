@@ -10,6 +10,7 @@
 #include <utility>
 #include <cmath>
 #include <iomanip>
+#include <unordered_map>
 using namespace std;
 //rep(i, 0, changed.size() - 1) changed[i].erase(remove(changed[i].begin(), changed[i].end(), ' '), changed[i].end());
 struct comparator {
@@ -17,44 +18,46 @@ struct comparator {
 		return i > j;
 	}
 };
+bool sortbysec(const pair<string, int> &a,
+	const pair<string, int> &b)
+{
+	return (a.first < b.first);
+}
 priority_queue<int, std::vector<int>, comparator> minHeap;
 #define rep(i, a, b) 	for (int i = int(a); i <= int(b); ++i)
 int main()
 {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-	int t;
+	int t, k, m;
+	double temp;
 	cin >> t;
-	int case_counter = 1;
 	while (t--)
 	{
-		vector <pair <string, int>> myvector(52);
-		bool seen[52];
-		for (int i = 0; i < 52; i++)
-			seen[i] = false;
-		string temp;
-		for (int i = 0; i < 52; i++)
+		unordered_map<char, double> mymap;
+		cin >> k;
+		char a;
+		for (int i = 0; i < k; ++i)
 		{
-			cin >> temp;
-			pair <string, int> mytemp;
-			int x = (temp[0] >= 65 && temp[0] <= 90) ? 10:temp[0] - '0';
-			mytemp = make_pair(temp, x);
-			myvector[i] = mytemp;
+			cin >> a >> temp;
+			mymap[a] = temp;
 		}
-		int y = 0;
-		int top_of_the_pile = 51 - 25;
-		int counter = 0;
-		for (int i = 0; i < 3; i++)
+		cin >> m;
+		double sum = 0;
+		cin.ignore();
+		for (int i = 0; i < m; ++i)
 		{
-			int x = myvector[top_of_the_pile].second;
-			y += x;
-			counter += (10-x)+1;
-			top_of_the_pile -= (10-x+1);
+			string x;
+			getline(cin, x);
+			for (int j = 0; j < x.length(); ++j)
+			{
+				auto t = mymap.find(x[j]);
+				if (t != mymap.end())
+					sum += mymap[x[j]];
+			}
 		}
-		cout <<"Case " << case_counter++ << ": "  <<myvector[counter+y-1].first << endl;
-
+		cout << fixed << setprecision(2) << sum / 100 << '$' << endl;
 	}
-
 	system("pause");
 	return 0;
 }

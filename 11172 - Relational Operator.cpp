@@ -6,22 +6,35 @@
 #include <string>
 #include <functional>
 #include <cstring>
+#include <list>
 #include <cmath>
 #include <iomanip>
 using namespace std;
-#define rep(i, a, b) 	for (int i = int(a); i <= int(b); i++)
+//rep(i, 0, changed.size() - 1) changed[i].erase(remove(changed[i].begin(), changed[i].end(), ' '), changed[i].end());
+struct comparator {
+	bool operator()(int i, int j) {
+		return i > j;
+	}
+};
+priority_queue<int, std::vector<int>, comparator> minHeap;
+#define rep(i, a, b) 	for (int i = int(a); i <= int(b); ++i)
 int main()
 {
-	int TC, x,y;
-	cin >> TC;
-	while (TC--)
+	int t;
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cin >> t;
+	for (int i = 0; i < t; i++)
 	{
+		int x, y;
+		char temp;
 		cin >> x >> y;
-		if (x == y) cout << "=";
-		else if (x < y) cout << "<";
-		else cout << ">";
-		if (TC)cout << endl;
+		(x < y) ? temp = '<' : (x > y)? temp = '>': temp = '=';
+		cout << temp << endl;
 	}
+
+
 	system("pause");
 	return 0;
 }
+

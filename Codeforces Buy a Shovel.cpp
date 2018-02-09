@@ -7,31 +7,35 @@
 #include <functional>
 #include <cstring>
 #include <list>
+#include <utility>
 #include <cmath>
 #include <iomanip>
+#include <unordered_map>
 using namespace std;
 //rep(i, 0, changed.size() - 1) changed[i].erase(remove(changed[i].begin(), changed[i].end(), ' '), changed[i].end());
-struct comparator {
-	bool operator()(int i, int j) {
-		return i > j;
-	}
-};
-priority_queue<int, std::vector<int>, comparator> minHeap;
+bool comparatorr(int i, int j)
+{
+	return i > j;
+}
+bool sortbysec(const pair<string, int> &a,
+	const pair<string, int> &b)
+{
+	return (a.first < b.first);
+}
+//priority_queue<int, std::vector<int>, comparatorr> minHeap;
 #define rep(i, a, b) 	for (int i = int(a); i <= int(b); ++i)
 int main()
 {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-	int t;
-	cin >> t;
-	for (int i = 1; i <= t; ++i)
+	int k, r;
+	cin >> k >> r;
+	int counter = 1;
+	while ((counter*k) % 10 != r && (counter*k) % 10 != 0)
 	{
-		vector <int> myvect(3);
-		cin >> myvect[0] >> myvect[1] >> myvect[2];
-		sort(myvect.begin(), myvect.end());
-		cout <<"Case " << i << ": " <<myvect[1] << endl;
+		counter++;
 	}
-
+	cout << counter << endl;
 	system("pause");
 	return 0;
 }
