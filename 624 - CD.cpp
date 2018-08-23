@@ -44,7 +44,7 @@ int main()
 		ans = 0;
 		backtrack(0);
 		for (int i = 0; i < n; i++) if (cp[i]) cout << songs[i] << " ";
-		cout << "sum: " << ans << endl;
+		cout << "sum:" << ans << endl;
 	}
 	system("pause");
 	return 0;
