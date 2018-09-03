@@ -1,47 +1,34 @@
 #include <iostream>
-#include <string>
 #include <stack>
+#include <string>
 using namespace std;
 
 int main()
 {
-	string temp;
 	int n;
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+
 	cin >> n;
 	cin.ignore();
 	while (n--)
 	{
-		getline(cin, temp);
-		bool flag = true;
 		stack <char> mStack;
-		for (int i = 0; i < temp.length(); ++i)
+		string x;
+		getline(cin, x);
+		bool flag = false;
+		for (int i = 0; i < x.length(); ++i)
 		{
-			if (temp[i] == '(' || temp[i] == '[')
-				mStack.push(temp[i]);
-			else
-			{
-				if (mStack.empty())
-				{
-					flag = false;
-					break;
-				}
-				char t = mStack.top();
-				if (t == '(' && temp[i] == ')' || t == '[' && temp[i] == ']')
-				{
-					mStack.pop();
-				}
-				else
-				{
-					flag = false;
-					break;
-				}
+			if (x[i] == '(' || x[i] == '[') mStack.push(x[i]);
+			else if (!mStack.empty() && ((x[i] == ')' && mStack.top() == '(') || (x[i] == ']' && mStack.top() == '['))) 
+				mStack.pop();
+			else {
+				flag = true;
+				break;
 			}
 		}
-		if (flag && mStack.empty())
-			cout << "Yes";
-		else
-			cout << "No";
-		cout << endl;
+		if (flag || !mStack.empty()) cout << "No\n";
+		else cout << "Yes\n";
 	}
 	return 0;
 }
