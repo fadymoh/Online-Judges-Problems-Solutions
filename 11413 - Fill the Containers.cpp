@@ -44,9 +44,6 @@ int main()
 		}
 		cout << capacity << endl;
 	}
-
-
-
 	system("pause");
 	return 0;
 }
