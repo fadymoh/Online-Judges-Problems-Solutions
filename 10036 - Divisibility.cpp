@@ -2,37 +2,36 @@
 #include <stdio.h>
 #include <string.h>
 using namespace std;
-int n, k;
-int arr[10001];
-int memo[10001][101];
-bool dp(int i, int mod)
+int k, n;
+short values[10000];
+bool dp[10000][101];
+bool DPFunc(int lvl, int sum)
 {
-	if (i == n)
-	{
-		if (mod == 0)
-		{
-			return 1;
-		}
-		return 0;
-	}
-	int &ret = memo[i][mod];
-	if (ret != -1) return ret;
+	bool &ret = dp[lvl][sum];
+	if (lvl == n) return (sum % k) == 0;
+	if (ret != 1) return ret;
 	ret = 0;
-	if (dp(i + 1, (((mod + arr[i]) % k) + k) % k)) return true;
-	if (dp(i + 1, (((mod - arr[i]) % k) + k) % k)) return true;
-	return false;
+	return DPFunc(lvl + 1, (sum + values[lvl]) % k ) || DPFunc(lvl + 1, (sum - values[lvl]) % k);
 }
 int main()
 {
-	int tc;
-	cin >> tc;
-	while (tc--)
+	int t;
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	cin >> t;
+	while (t--)
 	{
 		cin >> n >> k;
-		memset(memo, -1, sizeof memo);
-		for (int i = 0; i < n; ++i) cin >> arr[i];
-		int temp = dp(1, (arr[0] + k) % k);
-		cout << ((temp) ? "Divisible" : "Not divisible" )<< endl;
+		for (int i = 0; i < n; ++i)
+		{
+			cin >> values[i];
+			values[i] %= k;
+		}
+		memset(dp, 1, sizeof dp);
+		if (DPFunc(1, values[0])) cout << "Divisible\n";
+		else cout << "Not divisible\n";
 	}
+
 	return 0;
 }

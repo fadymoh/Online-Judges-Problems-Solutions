@@ -4,7 +4,8 @@
 #include <cstring>
 #include <cstdio>
 using namespace std;
-vector <vector<int>> graph;
+vector <vector<int>> graph;//A c
+						   //[1 0 1 1] B
 bool visited[257];
 char line[100];
 vector<int> solution;
