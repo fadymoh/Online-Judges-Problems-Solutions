@@ -1,32 +1,32 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
+#include <cmath>
 using namespace std;
 int n, k;
-bool valid(long long v)
+bool valid(int v)
 {
-	long long sum = v;
+	int linesOfCode = 0;
+	int addition = v + v / k;
 	int i = 1;
-	long long kPow = k;
-	while (v / kPow)
+	while (addition)
 	{
-		sum += v / kPow;
-		kPow *= k;
+		linesOfCode += addition;
+		++i;
+		addition = int((v/pow(k, i)));
 	}
-	return sum >= n;
+	return linesOfCode >= n;
 }
 int main()
 {
-	cin >> n >> k;
-	int left = k, right = n;
-	if (n <= k) {
-		cout << n << endl;
-		return 0;
-	}
-	while (left <= right)
+
+	scanf("%d %d", &n, &k);
+	long long start = 0, end = 1e9, mid;
+	while (start < end)
 	{
-		long long mid = left + (right - left) / 2;
-		if (valid(mid)) right = mid - 1;
-		else left = mid + 1;
+		mid = start + (end - start) / 2;
+		if (valid(mid)) end = mid;
+		else start = mid + 1;
 	}
-	cout << left << endl;
+	printf("%d", end);
 	return 0;
 }
