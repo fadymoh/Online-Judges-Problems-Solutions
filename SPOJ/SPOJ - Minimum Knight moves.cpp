@@ -12,7 +12,7 @@ void bfs(const pair <int, int> &source, const pair <int, int> &destination)
 	queue <pair<int, int>> q;
 	q.push({ source });
 	memset(dist, 0x3f, sizeof dist);
-	memset(visited, false, sizeof dist);
+	memset(visited, false, sizeof visited);
 	dist[source.first][source.second] = 0;
 	while (q.size())
 	{
