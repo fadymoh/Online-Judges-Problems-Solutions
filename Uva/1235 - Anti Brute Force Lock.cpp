@@ -2,52 +2,36 @@
 #include <iostream>
 #include <algorithm>
 #include <numeric>
+#include <string>
+#include <vector>
 using namespace std;
+const int N = 505, M = 130000;
 
-typedef long long ll;
-
-const int N = 1e4 + 5, M = 1e4 + 6, QS = 1024, QS1 = 1023, OO = 0x3f3f3f3f;
-int x[N], y[N];
-double trains, roads;
-int states;
-int parent[N], sz[N], comps, n, m, r;
-
-void init() {
-	comps = n;
-	iota(parent, parent + n, 0);
-	fill(sz, sz + n, 1);
+vector<int>p, v;
+vector<pair<int, pair<int, int>>> edges;
+void init()
+{
+	iota(p.begin(), p.end(), 0);
+	sort(edges.begin(), edges.end());
 }
-
-int frm[M], to[M], sorted[M];
-double cost[M];
-
-int find(int u) {
-	return parent[u] == u ? u : parent[u] = find(parent[u]);
+int find(int a)
+{
+	return a == p[a] ? a : (p[a] = find(p[a]));
 }
-
-bool merge(int u, int v) {
-	u = find(u);
-	v = find(v);
-	if (u == v)  return 0;
-	if (sz[u] > sz[v]) swap(u, v);
-	parent[u] = v;
-	sz[v] += sz[u];
-	--comps;
-	return 1;
+void join(int a, int b)
+{
+	p[find(a)] = find(b);
 }
-
+int n, m;
 int kruskal() {
+
 	int ret = 0;
-	sort(sorted, sorted + m, [](int a, int b) {
-		return cost[a] < cost[b];
-	});
-	trains = roads = states = 0;
+	m = edges.size();
 	for (int i = 0; i < m; ++i) {
-		int idx = sorted[i];
-		if (merge(frm[idx], to[idx]))
-		{
-			ret += cost[idx];
-		}
+		if (find(edges[i].second.first) == find(edges[i].second.second))
+			continue;
+		join(edges[i].second.first, edges[i].second.second);
+		ret += edges[i].first;
 	}
 	return ret;
 }
@@ -57,41 +41,38 @@ int getDiff(string to, string from)
 	for (int i = 0; i < 4; ++i)
 	{
 		int diff = abs(to[i] - from[i]);
-		if (diff > 5) res += abs(diff - 10);
-		else res += diff;
+		res += min(10 - diff, diff);
 	}
 	return res;
 }
 int main()
 {
 	int tc;
-	scanf("%d", &tc);
+	cin >> tc;
 	while (tc--)
 	{
-		scanf("%d", &n);
+		cin >> n;
 		init();
 		string in[N];
-		char buffer[5];
-		int minimum = 1e9;
+		p.resize(n); v.resize(n);
+		edges.clear();
+		int ret = 1e9;
 		for (int i = 0; i < n; ++i)
 		{
-			scanf("%s", buffer);
-			in[i] = buffer;
-			minimum = min(minimum, getDiff("0000", in[i]));
+			cin >> in[i];
+			ret = min(ret, getDiff("0000", in[i]));
 		}
 		m = 0;
 		for (int i = 0; i < n; ++i)
 		{
-			for (int j = i + 1; j < n; ++j)
+			for (int j = 0; j < n; ++j)
 			{
-				int csst = getDiff(in[i], in[j]);
-				frm[m] = i;
-				to[m] = j;
-				cost[m] = csst;
-				sorted[m] = m++;
+				if (i != j) {
+					edges.push_back({ getDiff(in[i], in[j]), {i,j}});
+				}
 			}
 		}
-		printf("%d\n", minimum + kruskal());
+		cout << ret + kruskal() << endl;
 	}
 
 	return 0;
